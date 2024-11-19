@@ -14,26 +14,29 @@ Studiamo bene la risposta e i dati che ci fornisce iniziando a pensare a come po
 
 const baseUrl = `https://jsonplaceholder.typicode.com/`;
 const resource = `photos`;
-
+const carta = document.querySelector(".card");
 const photo = [];
 
 const endPoint = baseUrl + resource;
 const params = { "_limit": 6 };
 
 axios.get(endPoint, { params }).then((res) => {
-    if (Array.isArray(res.data)) {
-        console.log(res.data);
-        res.data.forEach(item => {
-            if (item.id && item.title && item.url) {
-                printPhoto(item.id, item.title, item.url);
-            }
-        });
-    }
-})
+    console.log(res.data);
+    res.data.forEach(item => {
+        printPhoto(item.id, item.title, item.url);
 
+    });
+
+})
 
 function printPhoto(id, title, url) {
     console.log(`ID: ${id}, Titolo: ${title}, URL: ${url}`);
+    let template = `<div class="card">
+        <h3>${title}</h3>
+        <img src="${url}" alt="${title}" />
+    </div>`
+
+    carta.innerHTML += template;
 }
 
 
