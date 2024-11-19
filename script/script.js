@@ -8,17 +8,32 @@
 https://jsonplaceholder.typicode.com/photos?_limit=6
 Studiamo bene la risposta e i dati che ci fornisce iniziando a pensare a come poterli sfruttare.
 * Milestone 3 *
-    Inseriamo un foglio JavaScript ed effettuiamo una chiamata AJAX all’API di JSON Placeholder, sfruttando la risposta per generare dinamicamente in pagina una serie di foto!
-        * Bonus *
-        rendi la pagina responsive, in modo che su mobile e tablet le foto si dispongano man mano una sotto l’altra ed il titolo abbia una dimensione adeguata*/
+    Inseriamo un foglio JavaScript ed effettuiamo una chiamata AJAX all’API di JSON Placeholder, sfruttando la risposta per generare dinamicamente in pagina una serie di foto!*/
+
 
 
 const baseUrl = `https://jsonplaceholder.typicode.com/`;
 const resource = `photos`;
 
+const photo = [];
+
 const endPoint = baseUrl + resource;
 const params = { "_limit": 6 };
 
-axios.get(baseUrl + resource, { params }).then((res) => {
-    console.log(res.data);
-});
+axios.get(endPoint, { params }).then((res) => {
+    if (Array.isArray(res.data)) {
+        console.log(res.data);
+        res.data.forEach(item => {
+            if (item.id && item.title && item.url) {
+                printPhoto(item.id, item.title, item.url);
+            }
+        });
+    }
+})
+
+
+function printPhoto(id, title, url) {
+    console.log(`ID: ${id}, Titolo: ${title}, URL: ${url}`);
+}
+
+
