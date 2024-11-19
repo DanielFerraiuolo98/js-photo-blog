@@ -14,7 +14,7 @@ Studiamo bene la risposta e i dati che ci fornisce iniziando a pensare a come po
 
 const baseUrl = `https://jsonplaceholder.typicode.com/`;
 const resource = `photos`;
-const carta = document.querySelector(".card");
+const carta = document.getElementById("container");
 const photo = [];
 
 const endPoint = baseUrl + resource;
@@ -31,10 +31,12 @@ axios.get(endPoint, { params }).then((res) => {
 
 function printPhoto(id, title, url) {
     console.log(`ID: ${id}, Titolo: ${title}, URL: ${url}`);
-    let template = `<div class="card">
-        <h3>${title}</h3>
-        <img src="${url}" alt="${title}" />
-    </div>`
+    let template = `<figure>
+        <img class="pin" src="./img/pin.svg" alt="pin">
+            <img src="${url}" alt="${title}" class="card">
+                <figcaption>${title}</figcaption>
+            </figure>`
+
 
     carta.innerHTML += template;
 }
