@@ -15,7 +15,15 @@ Studiamo bene la risposta e i dati che ci fornisce iniziando a pensare a come po
 const baseUrl = `https://jsonplaceholder.typicode.com/`;
 const resource = `photos`;
 const carta = document.getElementById("container");
-const photo = [];
+const overlay = document.getElementById("overlay");
+overlay.classList.add("d-none");
+const imgOverlay = overlay.querySelector("img");
+const closeBtn = document.querySelector("#overlay button");
+
+
+closeBtn.addEventListener("click", () => {
+    overlay.classList.add("d-none");
+});
 
 const endPoint = baseUrl + resource;
 const params = { "_limit": 6 };
@@ -24,21 +32,37 @@ axios.get(endPoint, { params }).then((res) => {
     console.log(res.data);
     res.data.forEach(item => {
         printPhoto(item.id, item.title, item.url);
-
     });
-
-})
+});
 
 function printPhoto(id, title, url) {
     console.log(`ID: ${id}, Titolo: ${title}, URL: ${url}`);
-    let template = `<figure>
+    let template = `<figure id="figure-${id}">
         <img class="pin" src="./img/pin.svg" alt="pin">
-            <img src="${url}" alt="${title}" class="card">
-                <figcaption>${title}</figcaption>
-            </figure>`
-
-
+        <img src="${url}" alt="${title}" class="card">
+        <figcaption>${title}</figcaption>
+    </figure>`;
     carta.innerHTML += template;
+    getFigures();
 }
+
+function getFigures() {
+    const figures = document.querySelectorAll("figure");
+    console.log(figures);
+    figures.forEach((figure) => {
+        console.log(figure);
+        figure.addEventListener("click", function () {
+            overlay.classList.remove("d-none");
+            const img = figure.querySelector("img.card");
+            console.log(img);
+            imgOverlay.src = img.src;
+        });
+    });
+}
+
+
+
+
+
 
 
